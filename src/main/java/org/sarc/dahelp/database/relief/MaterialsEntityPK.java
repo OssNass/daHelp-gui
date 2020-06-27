@@ -5,26 +5,26 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 public class MaterialsEntityPK implements Serializable {
-    private int materialsId;
-    private int internationOrganizationId;
+    private Integer materialsId;
+    private Integer internationOrganizationId;
 
     @Column(name = "materials_id", nullable = false)
     @Id
-    public int getMaterialsId() {
+    public Integer getMaterialsId() {
         return materialsId;
     }
 
-    public void setMaterialsId(int materialsId) {
+    public void setMaterialsId(Integer materialsId) {
         this.materialsId = materialsId;
     }
 
     @Column(name = "internation_organization_id", nullable = false)
     @Id
-    public int getInternationOrganizationId() {
+    public Integer getInternationOrganizationId() {
         return internationOrganizationId;
     }
 
-    public void setInternationOrganizationId(int internationOrganizationId) {
+    public void setInternationOrganizationId(Integer internationOrganizationId) {
         this.internationOrganizationId = internationOrganizationId;
     }
 
@@ -35,16 +35,17 @@ public class MaterialsEntityPK implements Serializable {
 
         MaterialsEntityPK that = (MaterialsEntityPK) o;
 
-        if (materialsId != that.materialsId) return false;
-        if (internationOrganizationId != that.internationOrganizationId) return false;
+        if (materialsId != null ? !materialsId.equals(that.materialsId) : that.materialsId != null) return false;
+        if (internationOrganizationId != null ? !internationOrganizationId.equals(that.internationOrganizationId) : that.internationOrganizationId != null)
+            return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = materialsId;
-        result = 31 * result + internationOrganizationId;
+        int result = materialsId != null ? materialsId.hashCode() : 0;
+        result = 31 * result + (internationOrganizationId != null ? internationOrganizationId.hashCode() : 0);
         return result;
     }
 }

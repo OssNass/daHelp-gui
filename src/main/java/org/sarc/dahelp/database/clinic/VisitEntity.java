@@ -2,44 +2,46 @@ package org.sarc.dahelp.database.clinic;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Collection;
 
 @Entity
 @Table(name = "visit", schema = "clinic", catalog = "dahelp")
 public class VisitEntity {
-    private int personId;
-    private int organizationId;
-    private int subbranchId;
+    private Integer personId;
+    private Integer organizationId;
+    private Integer subbranchId;
     private Date visitDate;
     private Integer fee;
-    private int visitId;
+    private Integer visitId;
+    private Collection<ExaminationEntity> examinationsByVisitId;
 
     @Basic
     @Column(name = "person_id", nullable = false)
-    public int getPersonId() {
+    public Integer getPersonId() {
         return personId;
     }
 
-    public void setPersonId(int personId) {
+    public void setPersonId(Integer personId) {
         this.personId = personId;
     }
 
     @Basic
     @Column(name = "organization_id", nullable = false)
-    public int getOrganizationId() {
+    public Integer getOrganizationId() {
         return organizationId;
     }
 
-    public void setOrganizationId(int organizationId) {
+    public void setOrganizationId(Integer organizationId) {
         this.organizationId = organizationId;
     }
 
     @Basic
     @Column(name = "subbranch_id", nullable = false)
-    public int getSubbranchId() {
+    public Integer getSubbranchId() {
         return subbranchId;
     }
 
-    public void setSubbranchId(int subbranchId) {
+    public void setSubbranchId(Integer subbranchId) {
         this.subbranchId = subbranchId;
     }
 
@@ -65,11 +67,11 @@ public class VisitEntity {
 
     @Id
     @Column(name = "visit_id", nullable = false)
-    public int getVisitId() {
+    public Integer getVisitId() {
         return visitId;
     }
 
-    public void setVisitId(int visitId) {
+    public void setVisitId(Integer visitId) {
         this.visitId = visitId;
     }
 
@@ -80,24 +82,34 @@ public class VisitEntity {
 
         VisitEntity that = (VisitEntity) o;
 
-        if (personId != that.personId) return false;
-        if (organizationId != that.organizationId) return false;
-        if (subbranchId != that.subbranchId) return false;
-        if (visitId != that.visitId) return false;
+        if (personId != null ? !personId.equals(that.personId) : that.personId != null) return false;
+        if (organizationId != null ? !organizationId.equals(that.organizationId) : that.organizationId != null)
+            return false;
+        if (subbranchId != null ? !subbranchId.equals(that.subbranchId) : that.subbranchId != null) return false;
         if (visitDate != null ? !visitDate.equals(that.visitDate) : that.visitDate != null) return false;
         if (fee != null ? !fee.equals(that.fee) : that.fee != null) return false;
+        if (visitId != null ? !visitId.equals(that.visitId) : that.visitId != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = personId;
-        result = 31 * result + organizationId;
-        result = 31 * result + subbranchId;
+        int result = personId != null ? personId.hashCode() : 0;
+        result = 31 * result + (organizationId != null ? organizationId.hashCode() : 0);
+        result = 31 * result + (subbranchId != null ? subbranchId.hashCode() : 0);
         result = 31 * result + (visitDate != null ? visitDate.hashCode() : 0);
         result = 31 * result + (fee != null ? fee.hashCode() : 0);
-        result = 31 * result + visitId;
+        result = 31 * result + (visitId != null ? visitId.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "visitByVisitId")
+    public Collection<ExaminationEntity> getExaminationsByVisitId() {
+        return examinationsByVisitId;
+    }
+
+    public void setExaminationsByVisitId(Collection<ExaminationEntity> examinationsByVisitId) {
+        this.examinationsByVisitId = examinationsByVisitId;
     }
 }

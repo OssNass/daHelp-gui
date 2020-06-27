@@ -1,21 +1,23 @@
 package org.sarc.dahelp.database.clinic;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "disease", schema = "clinic", catalog = "dahelp")
 public class DiseaseEntity {
-    private int diseaseId;
+    private Integer diseaseId;
     private String diseaseCode;
     private String diseaseName;
+    private Collection<DiagnosisEntity> diagnosesByDiseaseId;
 
     @Id
     @Column(name = "disease_id", nullable = false)
-    public int getDiseaseId() {
+    public Integer getDiseaseId() {
         return diseaseId;
     }
 
-    public void setDiseaseId(int diseaseId) {
+    public void setDiseaseId(Integer diseaseId) {
         this.diseaseId = diseaseId;
     }
 
@@ -46,7 +48,7 @@ public class DiseaseEntity {
 
         DiseaseEntity that = (DiseaseEntity) o;
 
-        if (diseaseId != that.diseaseId) return false;
+        if (diseaseId != null ? !diseaseId.equals(that.diseaseId) : that.diseaseId != null) return false;
         if (diseaseCode != null ? !diseaseCode.equals(that.diseaseCode) : that.diseaseCode != null) return false;
         if (diseaseName != null ? !diseaseName.equals(that.diseaseName) : that.diseaseName != null) return false;
 
@@ -55,9 +57,18 @@ public class DiseaseEntity {
 
     @Override
     public int hashCode() {
-        int result = diseaseId;
+        int result = diseaseId != null ? diseaseId.hashCode() : 0;
         result = 31 * result + (diseaseCode != null ? diseaseCode.hashCode() : 0);
         result = 31 * result + (diseaseName != null ? diseaseName.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "diseaseByDiseaseId")
+    public Collection<DiagnosisEntity> getDiagnosesByDiseaseId() {
+        return diagnosesByDiseaseId;
+    }
+
+    public void setDiagnosesByDiseaseId(Collection<DiagnosisEntity> diagnosesByDiseaseId) {
+        this.diagnosesByDiseaseId = diagnosesByDiseaseId;
     }
 }

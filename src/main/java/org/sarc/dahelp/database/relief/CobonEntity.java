@@ -1,89 +1,96 @@
 package org.sarc.dahelp.database.relief;
 
+import org.sarc.dahelp.database.basic.PersonEntity;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Collection;
 
 @Entity
 @Table(name = "cobon", schema = "relief", catalog = "dahelp")
 @IdClass(CobonEntityPK.class)
 public class CobonEntity {
-    private int familyId;
-    private int personId;
-    private int subbranchId;
-    private int organizationId;
-    private int numberOfItems;
-    private int cobonId;
-    private int cobontypeId;
+    private Integer familyId;
+    private Integer personId;
+    private Integer subbranchId;
+    private Integer organizationId;
+    private Integer numberOfItems;
+    private Integer cobonId;
+    private Integer cobontypeId;
     private Timestamp cobonIssueStamp;
     private Timestamp cobonRecieveStamp;
+    private ExtraFamilyInfoEntity extraFamilyInfoByFamilyId;
+    private PersonEntity person;
+    private CobonTypeEntity cobonTypeByCobonId;
+    private Collection<MaterialInCobonEntity> materialInCobons;
 
     @Basic
     @Column(name = "family_id", nullable = false)
-    public int getFamilyId() {
+    public Integer getFamilyId() {
         return familyId;
     }
 
-    public void setFamilyId(int familyId) {
+    public void setFamilyId(Integer familyId) {
         this.familyId = familyId;
     }
 
     @Basic
     @Column(name = "person_id", nullable = false)
-    public int getPersonId() {
+    public Integer getPersonId() {
         return personId;
     }
 
-    public void setPersonId(int personId) {
+    public void setPersonId(Integer personId) {
         this.personId = personId;
     }
 
     @Basic
     @Column(name = "subbranch_id", nullable = false)
-    public int getSubbranchId() {
+    public Integer getSubbranchId() {
         return subbranchId;
     }
 
-    public void setSubbranchId(int subbranchId) {
+    public void setSubbranchId(Integer subbranchId) {
         this.subbranchId = subbranchId;
     }
 
     @Basic
     @Column(name = "organization_id", nullable = false)
-    public int getOrganizationId() {
+    public Integer getOrganizationId() {
         return organizationId;
     }
 
-    public void setOrganizationId(int organizationId) {
+    public void setOrganizationId(Integer organizationId) {
         this.organizationId = organizationId;
     }
 
     @Basic
     @Column(name = "number_of_items", nullable = false)
-    public int getNumberOfItems() {
+    public Integer getNumberOfItems() {
         return numberOfItems;
     }
 
-    public void setNumberOfItems(int numberOfItems) {
+    public void setNumberOfItems(Integer numberOfItems) {
         this.numberOfItems = numberOfItems;
     }
 
     @Id
     @Column(name = "cobon_id", nullable = false)
-    public int getCobonId() {
+    public Integer getCobonId() {
         return cobonId;
     }
 
-    public void setCobonId(int cobonId) {
+    public void setCobonId(Integer cobonId) {
         this.cobonId = cobonId;
     }
 
     @Id
     @Column(name = "cobontype_id", nullable = false)
-    public int getCobontypeId() {
+    public Integer getCobontypeId() {
         return cobontypeId;
     }
 
-    public void setCobontypeId(int cobontypeId) {
+    public void setCobontypeId(Integer cobontypeId) {
         this.cobontypeId = cobontypeId;
     }
 
@@ -114,13 +121,15 @@ public class CobonEntity {
 
         CobonEntity that = (CobonEntity) o;
 
-        if (familyId != that.familyId) return false;
-        if (personId != that.personId) return false;
-        if (subbranchId != that.subbranchId) return false;
-        if (organizationId != that.organizationId) return false;
-        if (numberOfItems != that.numberOfItems) return false;
-        if (cobonId != that.cobonId) return false;
-        if (cobontypeId != that.cobontypeId) return false;
+        if (familyId != null ? !familyId.equals(that.familyId) : that.familyId != null) return false;
+        if (personId != null ? !personId.equals(that.personId) : that.personId != null) return false;
+        if (subbranchId != null ? !subbranchId.equals(that.subbranchId) : that.subbranchId != null) return false;
+        if (organizationId != null ? !organizationId.equals(that.organizationId) : that.organizationId != null)
+            return false;
+        if (numberOfItems != null ? !numberOfItems.equals(that.numberOfItems) : that.numberOfItems != null)
+            return false;
+        if (cobonId != null ? !cobonId.equals(that.cobonId) : that.cobonId != null) return false;
+        if (cobontypeId != null ? !cobontypeId.equals(that.cobontypeId) : that.cobontypeId != null) return false;
         if (cobonIssueStamp != null ? !cobonIssueStamp.equals(that.cobonIssueStamp) : that.cobonIssueStamp != null)
             return false;
         if (cobonRecieveStamp != null ? !cobonRecieveStamp.equals(that.cobonRecieveStamp) : that.cobonRecieveStamp != null)
@@ -131,15 +140,56 @@ public class CobonEntity {
 
     @Override
     public int hashCode() {
-        int result = familyId;
-        result = 31 * result + personId;
-        result = 31 * result + subbranchId;
-        result = 31 * result + organizationId;
-        result = 31 * result + numberOfItems;
-        result = 31 * result + cobonId;
-        result = 31 * result + cobontypeId;
+        int result = familyId != null ? familyId.hashCode() : 0;
+        result = 31 * result + (personId != null ? personId.hashCode() : 0);
+        result = 31 * result + (subbranchId != null ? subbranchId.hashCode() : 0);
+        result = 31 * result + (organizationId != null ? organizationId.hashCode() : 0);
+        result = 31 * result + (numberOfItems != null ? numberOfItems.hashCode() : 0);
+        result = 31 * result + (cobonId != null ? cobonId.hashCode() : 0);
+        result = 31 * result + (cobontypeId != null ? cobontypeId.hashCode() : 0);
         result = 31 * result + (cobonIssueStamp != null ? cobonIssueStamp.hashCode() : 0);
         result = 31 * result + (cobonRecieveStamp != null ? cobonRecieveStamp.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "family_id", referencedColumnName = "family_id", nullable = false, insertable = false, updatable = false)
+    public ExtraFamilyInfoEntity getExtraFamilyInfoByFamilyId() {
+        return extraFamilyInfoByFamilyId;
+    }
+
+    public void setExtraFamilyInfoByFamilyId(ExtraFamilyInfoEntity extraFamilyInfoByFamilyId) {
+        this.extraFamilyInfoByFamilyId = extraFamilyInfoByFamilyId;
+    }
+
+    @ManyToOne
+    @JoinColumns({@JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false, insertable = false, updatable = false),
+            @JoinColumn(name = "organization_id", referencedColumnName = "organization_id", nullable = false, insertable = false, updatable = false),
+            @JoinColumn(name = "subbranch_id", referencedColumnName = "subbranch_id", nullable = false, insertable = false, updatable = false)})
+    public PersonEntity getPerson() {
+        return person;
+    }
+
+    public void setPerson(PersonEntity person) {
+        this.person = person;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "cobon_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    public CobonTypeEntity getCobonTypeByCobonId() {
+        return cobonTypeByCobonId;
+    }
+
+    public void setCobonTypeByCobonId(CobonTypeEntity cobonTypeByCobonId) {
+        this.cobonTypeByCobonId = cobonTypeByCobonId;
+    }
+
+    @OneToMany(mappedBy = "cobon")
+    public Collection<MaterialInCobonEntity> getMaterialInCobons() {
+        return materialInCobons;
+    }
+
+    public void setMaterialInCobons(Collection<MaterialInCobonEntity> materialInCobons) {
+        this.materialInCobons = materialInCobons;
     }
 }

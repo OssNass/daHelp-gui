@@ -1,20 +1,26 @@
 package org.sarc.dahelp.database.administration;
 
+import org.sarc.dahelp.database.relief.MaterialsEntity;
+import org.sarc.dahelp.database.clinic.ShipmentEntity;
+
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "internationorganization", schema = "administration", catalog = "dahelp")
 public class InternationorganizationEntity {
-    private int id;
+    private Integer id;
     private String name;
+    private Collection<ShipmentEntity> shipmentsById;
+    private Collection<MaterialsEntity> materialsById;
 
     @Id
     @Column(name = "id", nullable = false)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -35,7 +41,7 @@ public class InternationorganizationEntity {
 
         InternationorganizationEntity that = (InternationorganizationEntity) o;
 
-        if (id != that.id) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
 
         return true;
@@ -43,8 +49,26 @@ public class InternationorganizationEntity {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "internationorganizationByShipmentSourceId")
+    public Collection<ShipmentEntity> getShipmentsById() {
+        return shipmentsById;
+    }
+
+    public void setShipmentsById(Collection<ShipmentEntity> shipmentsById) {
+        this.shipmentsById = shipmentsById;
+    }
+
+    @OneToMany(mappedBy = "internationorganizationByInternationOrganizationId")
+    public Collection<MaterialsEntity> getMaterialsById() {
+        return materialsById;
+    }
+
+    public void setMaterialsById(Collection<MaterialsEntity> materialsById) {
+        this.materialsById = materialsById;
     }
 }

@@ -5,26 +5,26 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 public class SubbranchEntityPK implements Serializable {
-    private int id;
-    private int organizationId;
+    private Integer id;
+    private Integer organizationId;
 
     @Column(name = "id", nullable = false)
     @Id
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
     @Column(name = "organization_id", nullable = false)
     @Id
-    public int getOrganizationId() {
+    public Integer getOrganizationId() {
         return organizationId;
     }
 
-    public void setOrganizationId(int organizationId) {
+    public void setOrganizationId(Integer organizationId) {
         this.organizationId = organizationId;
     }
 
@@ -35,16 +35,17 @@ public class SubbranchEntityPK implements Serializable {
 
         SubbranchEntityPK that = (SubbranchEntityPK) o;
 
-        if (id != that.id) return false;
-        if (organizationId != that.organizationId) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (organizationId != null ? !organizationId.equals(that.organizationId) : that.organizationId != null)
+            return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + organizationId;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (organizationId != null ? organizationId.hashCode() : 0);
         return result;
     }
 }

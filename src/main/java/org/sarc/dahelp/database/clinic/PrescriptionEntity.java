@@ -2,32 +2,36 @@ package org.sarc.dahelp.database.clinic;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Collection;
 
 @Entity
 @Table(name = "prescription", schema = "clinic", catalog = "dahelp")
 public class PrescriptionEntity {
-    private int prescriptionId;
-    private int examinationId;
+    private Integer prescriptionId;
+    private Integer examinationId;
     private Boolean free;
     private Date presreciptioDate;
+    private Collection<PharmacyMovementOutEntity> pharmacyMovementOutsByPrescriptionId;
+    private Collection<PrescribedMedicationsEntity> prescribedMedicationsByPrescriptionId;
+    private ExaminationEntity examinationByExaminationId;
 
     @Id
     @Column(name = "prescription_id", nullable = false)
-    public int getPrescriptionId() {
+    public Integer getPrescriptionId() {
         return prescriptionId;
     }
 
-    public void setPrescriptionId(int prescriptionId) {
+    public void setPrescriptionId(Integer prescriptionId) {
         this.prescriptionId = prescriptionId;
     }
 
     @Basic
     @Column(name = "examination_id", nullable = false)
-    public int getExaminationId() {
+    public Integer getExaminationId() {
         return examinationId;
     }
 
-    public void setExaminationId(int examinationId) {
+    public void setExaminationId(Integer examinationId) {
         this.examinationId = examinationId;
     }
 
@@ -58,8 +62,10 @@ public class PrescriptionEntity {
 
         PrescriptionEntity that = (PrescriptionEntity) o;
 
-        if (prescriptionId != that.prescriptionId) return false;
-        if (examinationId != that.examinationId) return false;
+        if (prescriptionId != null ? !prescriptionId.equals(that.prescriptionId) : that.prescriptionId != null)
+            return false;
+        if (examinationId != null ? !examinationId.equals(that.examinationId) : that.examinationId != null)
+            return false;
         if (free != null ? !free.equals(that.free) : that.free != null) return false;
         if (presreciptioDate != null ? !presreciptioDate.equals(that.presreciptioDate) : that.presreciptioDate != null)
             return false;
@@ -69,10 +75,38 @@ public class PrescriptionEntity {
 
     @Override
     public int hashCode() {
-        int result = prescriptionId;
-        result = 31 * result + examinationId;
+        int result = prescriptionId != null ? prescriptionId.hashCode() : 0;
+        result = 31 * result + (examinationId != null ? examinationId.hashCode() : 0);
         result = 31 * result + (free != null ? free.hashCode() : 0);
         result = 31 * result + (presreciptioDate != null ? presreciptioDate.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "prescriptionByPrescritionId")
+    public Collection<PharmacyMovementOutEntity> getPharmacyMovementOutsByPrescriptionId() {
+        return pharmacyMovementOutsByPrescriptionId;
+    }
+
+    public void setPharmacyMovementOutsByPrescriptionId(Collection<PharmacyMovementOutEntity> pharmacyMovementOutsByPrescriptionId) {
+        this.pharmacyMovementOutsByPrescriptionId = pharmacyMovementOutsByPrescriptionId;
+    }
+
+    @OneToMany(mappedBy = "prescriptionByPrescritionId")
+    public Collection<PrescribedMedicationsEntity> getPrescribedMedicationsByPrescriptionId() {
+        return prescribedMedicationsByPrescriptionId;
+    }
+
+    public void setPrescribedMedicationsByPrescriptionId(Collection<PrescribedMedicationsEntity> prescribedMedicationsByPrescriptionId) {
+        this.prescribedMedicationsByPrescriptionId = prescribedMedicationsByPrescriptionId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "examination_id", referencedColumnName = "examination_id", nullable = false, insertable = false, updatable = false)
+    public ExaminationEntity getExaminationByExaminationId() {
+        return examinationByExaminationId;
+    }
+
+    public void setExaminationByExaminationId(ExaminationEntity examinationByExaminationId) {
+        this.examinationByExaminationId = examinationByExaminationId;
     }
 }

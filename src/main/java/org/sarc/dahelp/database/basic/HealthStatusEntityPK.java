@@ -3,12 +3,10 @@ package org.sarc.dahelp.database.basic;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import java.io.Serializable;
-import java.sql.Date;
 
-public class DisplacementEntityPK implements Serializable {
+public class HealthStatusEntityPK implements Serializable {
     private Integer personId;
-    private Integer regionId;
-    private Date date;
+    private Integer statusId;
     private Integer organizationId;
     private Integer subbranchId;
 
@@ -22,24 +20,14 @@ public class DisplacementEntityPK implements Serializable {
         this.personId = personId;
     }
 
-    @Column(name = "region_id", nullable = false)
+    @Column(name = "status_id", nullable = false)
     @Id
-    public Integer getRegionId() {
-        return regionId;
+    public Integer getStatusId() {
+        return statusId;
     }
 
-    public void setRegionId(Integer regionId) {
-        this.regionId = regionId;
-    }
-
-    @Column(name = "date", nullable = false)
-    @Id
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
+    public void setStatusId(Integer statusId) {
+        this.statusId = statusId;
     }
 
     @Column(name = "organization_id", nullable = false)
@@ -67,11 +55,10 @@ public class DisplacementEntityPK implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        DisplacementEntityPK that = (DisplacementEntityPK) o;
+        HealthStatusEntityPK that = (HealthStatusEntityPK) o;
 
         if (personId != null ? !personId.equals(that.personId) : that.personId != null) return false;
-        if (regionId != null ? !regionId.equals(that.regionId) : that.regionId != null) return false;
-        if (date != null ? !date.equals(that.date) : that.date != null) return false;
+        if (statusId != null ? !statusId.equals(that.statusId) : that.statusId != null) return false;
         if (organizationId != null ? !organizationId.equals(that.organizationId) : that.organizationId != null)
             return false;
         if (subbranchId != null ? !subbranchId.equals(that.subbranchId) : that.subbranchId != null) return false;
@@ -82,8 +69,7 @@ public class DisplacementEntityPK implements Serializable {
     @Override
     public int hashCode() {
         int result = personId != null ? personId.hashCode() : 0;
-        result = 31 * result + (regionId != null ? regionId.hashCode() : 0);
-        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (statusId != null ? statusId.hashCode() : 0);
         result = 31 * result + (organizationId != null ? organizationId.hashCode() : 0);
         result = 31 * result + (subbranchId != null ? subbranchId.hashCode() : 0);
         return result;

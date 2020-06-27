@@ -5,37 +5,37 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 public class MedicineOutEntityPK implements Serializable {
-    private int medicineId;
-    private int shipmentId;
-    private int movementId;
+    private Integer medicineId;
+    private Integer shipmentId;
+    private Integer movementId;
 
     @Column(name = "medicine_id", nullable = false)
     @Id
-    public int getMedicineId() {
+    public Integer getMedicineId() {
         return medicineId;
     }
 
-    public void setMedicineId(int medicineId) {
+    public void setMedicineId(Integer medicineId) {
         this.medicineId = medicineId;
     }
 
     @Column(name = "shipment_id", nullable = false)
     @Id
-    public int getShipmentId() {
+    public Integer getShipmentId() {
         return shipmentId;
     }
 
-    public void setShipmentId(int shipmentId) {
+    public void setShipmentId(Integer shipmentId) {
         this.shipmentId = shipmentId;
     }
 
     @Column(name = "movement_id", nullable = false)
     @Id
-    public int getMovementId() {
+    public Integer getMovementId() {
         return movementId;
     }
 
-    public void setMovementId(int movementId) {
+    public void setMovementId(Integer movementId) {
         this.movementId = movementId;
     }
 
@@ -46,18 +46,18 @@ public class MedicineOutEntityPK implements Serializable {
 
         MedicineOutEntityPK that = (MedicineOutEntityPK) o;
 
-        if (medicineId != that.medicineId) return false;
-        if (shipmentId != that.shipmentId) return false;
-        if (movementId != that.movementId) return false;
+        if (medicineId != null ? !medicineId.equals(that.medicineId) : that.medicineId != null) return false;
+        if (shipmentId != null ? !shipmentId.equals(that.shipmentId) : that.shipmentId != null) return false;
+        if (movementId != null ? !movementId.equals(that.movementId) : that.movementId != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = medicineId;
-        result = 31 * result + shipmentId;
-        result = 31 * result + movementId;
+        int result = medicineId != null ? medicineId.hashCode() : 0;
+        result = 31 * result + (shipmentId != null ? shipmentId.hashCode() : 0);
+        result = 31 * result + (movementId != null ? movementId.hashCode() : 0);
         return result;
     }
 }

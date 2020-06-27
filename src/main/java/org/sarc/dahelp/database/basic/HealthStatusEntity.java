@@ -1,21 +1,18 @@
 package org.sarc.dahelp.database.basic;
 
-import org.sarc.dahelp.database.administration.RegionEntity;
-
 import javax.persistence.*;
-import java.sql.Date;
 
 @Entity
-@Table(name = "displacement", schema = "basic", catalog = "dahelp")
-@IdClass(DisplacementEntityPK.class)
-public class DisplacementEntity {
+@Table(name = "health_status", schema = "basic", catalog = "dahelp")
+@IdClass(HealthStatusEntityPK.class)
+public class HealthStatusEntity {
     private Integer personId;
-    private Integer regionId;
-    private Date date;
+    private Integer statusId;
+    private String notes;
     private Integer organizationId;
     private Integer subbranchId;
     private PersonEntity person;
-    private RegionEntity regionByRegionId;
+    private ChronicDesciptionEntity chronicDesciptionByStatusId;
 
     @Id
     @Column(name = "person_id", nullable = false)
@@ -28,23 +25,23 @@ public class DisplacementEntity {
     }
 
     @Id
-    @Column(name = "region_id", nullable = false)
-    public Integer getRegionId() {
-        return regionId;
+    @Column(name = "status_id", nullable = false)
+    public Integer getStatusId() {
+        return statusId;
     }
 
-    public void setRegionId(Integer regionId) {
-        this.regionId = regionId;
+    public void setStatusId(Integer statusId) {
+        this.statusId = statusId;
     }
 
-    @Id
-    @Column(name = "date", nullable = false)
-    public Date getDate() {
-        return date;
+    @Basic
+    @Column(name = "notes", nullable = true, length = 50)
+    public String getNotes() {
+        return notes;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     @Id
@@ -72,11 +69,11 @@ public class DisplacementEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        DisplacementEntity that = (DisplacementEntity) o;
+        HealthStatusEntity that = (HealthStatusEntity) o;
 
         if (personId != null ? !personId.equals(that.personId) : that.personId != null) return false;
-        if (regionId != null ? !regionId.equals(that.regionId) : that.regionId != null) return false;
-        if (date != null ? !date.equals(that.date) : that.date != null) return false;
+        if (statusId != null ? !statusId.equals(that.statusId) : that.statusId != null) return false;
+        if (notes != null ? !notes.equals(that.notes) : that.notes != null) return false;
         if (organizationId != null ? !organizationId.equals(that.organizationId) : that.organizationId != null)
             return false;
         if (subbranchId != null ? !subbranchId.equals(that.subbranchId) : that.subbranchId != null) return false;
@@ -87,8 +84,8 @@ public class DisplacementEntity {
     @Override
     public int hashCode() {
         int result = personId != null ? personId.hashCode() : 0;
-        result = 31 * result + (regionId != null ? regionId.hashCode() : 0);
-        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (statusId != null ? statusId.hashCode() : 0);
+        result = 31 * result + (notes != null ? notes.hashCode() : 0);
         result = 31 * result + (organizationId != null ? organizationId.hashCode() : 0);
         result = 31 * result + (subbranchId != null ? subbranchId.hashCode() : 0);
         return result;
@@ -107,12 +104,12 @@ public class DisplacementEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "region_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
-    public RegionEntity getRegionByRegionId() {
-        return regionByRegionId;
+    @JoinColumn(name = "status_id", referencedColumnName = "status_id", nullable = false, insertable = false, updatable = false)
+    public ChronicDesciptionEntity getChronicDesciptionByStatusId() {
+        return chronicDesciptionByStatusId;
     }
 
-    public void setRegionByRegionId(RegionEntity regionByRegionId) {
-        this.regionByRegionId = regionByRegionId;
+    public void setChronicDesciptionByStatusId(ChronicDesciptionEntity chronicDesciptionByStatusId) {
+        this.chronicDesciptionByStatusId = chronicDesciptionByStatusId;
     }
 }

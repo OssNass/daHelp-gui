@@ -1,21 +1,23 @@
 package org.sarc.dahelp.database.basic;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "chronic_desciption", schema = "basic", catalog = "dahelp")
 public class ChronicDesciptionEntity {
-    private int statusId;
+    private Integer statusId;
     private String statusName;
     private String code;
+    private Collection<HealthStatusEntity> healthStatusesByStatusId;
 
     @Id
     @Column(name = "status_id", nullable = false)
-    public int getStatusId() {
+    public Integer getStatusId() {
         return statusId;
     }
 
-    public void setStatusId(int statusId) {
+    public void setStatusId(Integer statusId) {
         this.statusId = statusId;
     }
 
@@ -46,7 +48,7 @@ public class ChronicDesciptionEntity {
 
         ChronicDesciptionEntity that = (ChronicDesciptionEntity) o;
 
-        if (statusId != that.statusId) return false;
+        if (statusId != null ? !statusId.equals(that.statusId) : that.statusId != null) return false;
         if (statusName != null ? !statusName.equals(that.statusName) : that.statusName != null) return false;
         if (code != null ? !code.equals(that.code) : that.code != null) return false;
 
@@ -55,9 +57,18 @@ public class ChronicDesciptionEntity {
 
     @Override
     public int hashCode() {
-        int result = statusId;
+        int result = statusId != null ? statusId.hashCode() : 0;
         result = 31 * result + (statusName != null ? statusName.hashCode() : 0);
         result = 31 * result + (code != null ? code.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "chronicDesciptionByStatusId")
+    public Collection<HealthStatusEntity> getHealthStatusesByStatusId() {
+        return healthStatusesByStatusId;
+    }
+
+    public void setHealthStatusesByStatusId(Collection<HealthStatusEntity> healthStatusesByStatusId) {
+        this.healthStatusesByStatusId = healthStatusesByStatusId;
     }
 }

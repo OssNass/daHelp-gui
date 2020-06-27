@@ -6,28 +6,30 @@ import javax.persistence.*;
 @Table(name = "medicine_out", schema = "clinic", catalog = "dahelp")
 @IdClass(MedicineOutEntityPK.class)
 public class MedicineOutEntity {
-    private int medicineId;
-    private int shipmentId;
+    private Integer medicineId;
+    private Integer shipmentId;
     private Integer quantity;
-    private int movementId;
+    private Integer movementId;
+    private PharmacyStockEntity pharmacyStock;
+    private PharmacyMovementOutEntity pharmacyMovementOutByMovementId;
 
     @Id
     @Column(name = "medicine_id", nullable = false)
-    public int getMedicineId() {
+    public Integer getMedicineId() {
         return medicineId;
     }
 
-    public void setMedicineId(int medicineId) {
+    public void setMedicineId(Integer medicineId) {
         this.medicineId = medicineId;
     }
 
     @Id
     @Column(name = "shipment_id", nullable = false)
-    public int getShipmentId() {
+    public Integer getShipmentId() {
         return shipmentId;
     }
 
-    public void setShipmentId(int shipmentId) {
+    public void setShipmentId(Integer shipmentId) {
         this.shipmentId = shipmentId;
     }
 
@@ -43,11 +45,11 @@ public class MedicineOutEntity {
 
     @Id
     @Column(name = "movement_id", nullable = false)
-    public int getMovementId() {
+    public Integer getMovementId() {
         return movementId;
     }
 
-    public void setMovementId(int movementId) {
+    public void setMovementId(Integer movementId) {
         this.movementId = movementId;
     }
 
@@ -58,20 +60,41 @@ public class MedicineOutEntity {
 
         MedicineOutEntity that = (MedicineOutEntity) o;
 
-        if (medicineId != that.medicineId) return false;
-        if (shipmentId != that.shipmentId) return false;
-        if (movementId != that.movementId) return false;
+        if (medicineId != null ? !medicineId.equals(that.medicineId) : that.medicineId != null) return false;
+        if (shipmentId != null ? !shipmentId.equals(that.shipmentId) : that.shipmentId != null) return false;
         if (quantity != null ? !quantity.equals(that.quantity) : that.quantity != null) return false;
+        if (movementId != null ? !movementId.equals(that.movementId) : that.movementId != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = medicineId;
-        result = 31 * result + shipmentId;
+        int result = medicineId != null ? medicineId.hashCode() : 0;
+        result = 31 * result + (shipmentId != null ? shipmentId.hashCode() : 0);
         result = 31 * result + (quantity != null ? quantity.hashCode() : 0);
-        result = 31 * result + movementId;
+        result = 31 * result + (movementId != null ? movementId.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumns({@JoinColumn(name = "medicine_id", referencedColumnName = "medicine_id", nullable = false, insertable = false, updatable = false),
+            @JoinColumn(name = "shipment_id", referencedColumnName = "shipment_id", nullable = false, insertable = false, updatable = false)})
+    public PharmacyStockEntity getPharmacyStock() {
+        return pharmacyStock;
+    }
+
+    public void setPharmacyStock(PharmacyStockEntity pharmacyStock) {
+        this.pharmacyStock = pharmacyStock;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "movement_id", referencedColumnName = "movement_id", nullable = false, insertable = false, updatable = false)
+    public PharmacyMovementOutEntity getPharmacyMovementOutByMovementId() {
+        return pharmacyMovementOutByMovementId;
+    }
+
+    public void setPharmacyMovementOutByMovementId(PharmacyMovementOutEntity pharmacyMovementOutByMovementId) {
+        this.pharmacyMovementOutByMovementId = pharmacyMovementOutByMovementId;
     }
 }

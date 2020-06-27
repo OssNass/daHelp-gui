@@ -1,19 +1,27 @@
 package org.sarc.dahelp.database.administration;
 
+import org.sarc.dahelp.database.basic.PersonEntity;
+
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "subbranch", schema = "administration", catalog = "dahelp")
 @IdClass(SubbranchEntityPK.class)
 public class SubbranchEntity {
     private String name;
-    private int id;
-    private int organizationId;
+    private Integer id;
+    private Integer organizationId;
     private Integer parentId;
     private Integer parentOrgId;
     private String telephone;
     private String subbranchCity;
     private String address;
+    private OrganizaitonEntity organizaitonByOrganizationId;
+    private SubbranchEntity subbranch;
+    private Collection<SubbranchEntity> subbranches;
+    private Collection<UsersEntity> users;
+    private Collection<PersonEntity> people;
 
     @Basic
     @Column(name = "name", nullable = false, length = 100)
@@ -27,21 +35,21 @@ public class SubbranchEntity {
 
     @Id
     @Column(name = "id", nullable = false)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
     @Id
-    @Column(name = "organization_id", nullable = false)
-    public int getOrganizationId() {
+    @Column(name = "organization_id", nullable = false, insertable = false, updatable = false)
+    public Integer getOrganizationId() {
         return organizationId;
     }
 
-    public void setOrganizationId(int organizationId) {
+    public void setOrganizationId(Integer organizationId) {
         this.organizationId = organizationId;
     }
 
@@ -102,29 +110,75 @@ public class SubbranchEntity {
 
         SubbranchEntity that = (SubbranchEntity) o;
 
-        if (id != that.id) return false;
-        if (organizationId != that.organizationId) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (organizationId != null ? !organizationId.equals(that.organizationId) : that.organizationId != null)
+            return false;
         if (parentId != null ? !parentId.equals(that.parentId) : that.parentId != null) return false;
         if (parentOrgId != null ? !parentOrgId.equals(that.parentOrgId) : that.parentOrgId != null) return false;
         if (telephone != null ? !telephone.equals(that.telephone) : that.telephone != null) return false;
         if (subbranchCity != null ? !subbranchCity.equals(that.subbranchCity) : that.subbranchCity != null)
             return false;
-        if (address != null ? !address.equals(that.address) : that.address != null) return false;
-
-        return true;
+        return address != null ? address.equals(that.address) : that.address == null;
     }
 
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + id;
-        result = 31 * result + organizationId;
+        result = 31 * result + (id != null ? id.hashCode() : 0);
+        result = 31 * result + (organizationId != null ? organizationId.hashCode() : 0);
         result = 31 * result + (parentId != null ? parentId.hashCode() : 0);
         result = 31 * result + (parentOrgId != null ? parentOrgId.hashCode() : 0);
         result = 31 * result + (telephone != null ? telephone.hashCode() : 0);
         result = 31 * result + (subbranchCity != null ? subbranchCity.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "organization_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    public OrganizaitonEntity getOrganizaitonByOrganizationId() {
+        return organizaitonByOrganizationId;
+    }
+
+    public void setOrganizaitonByOrganizationId(OrganizaitonEntity organizaitonByOrganizationId) {
+        this.organizaitonByOrganizationId = organizaitonByOrganizationId;
+    }
+
+    @ManyToOne
+    @JoinColumns({@JoinColumn(name = "parent_id", referencedColumnName = "id", insertable = false, updatable = false), @JoinColumn(name = "parent_org_id", referencedColumnName = "organization_id", insertable = false, updatable = false)})
+    public SubbranchEntity getSubbranch() {
+        return subbranch;
+    }
+
+    public void setSubbranch(SubbranchEntity subbranch) {
+        this.subbranch = subbranch;
+    }
+
+    @OneToMany(mappedBy = "subbranch")
+    public Collection<SubbranchEntity> getSubbranches() {
+        return subbranches;
+    }
+
+    public void setSubbranches(Collection<SubbranchEntity> subbranches) {
+        this.subbranches = subbranches;
+    }
+
+    @OneToMany(mappedBy = "subbranch")
+    public Collection<UsersEntity> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Collection<UsersEntity> users) {
+        this.users = users;
+    }
+
+    @OneToMany(mappedBy = "subbranch")
+    public Collection<PersonEntity> getPeople() {
+        return people;
+    }
+
+    public void setPeople(Collection<PersonEntity> people) {
+        this.people = people;
     }
 }

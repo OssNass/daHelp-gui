@@ -5,26 +5,26 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 public class CobonEntityPK implements Serializable {
-    private int cobonId;
-    private int cobontypeId;
+    private Integer cobonId;
+    private Integer cobontypeId;
 
     @Column(name = "cobon_id", nullable = false)
     @Id
-    public int getCobonId() {
+    public Integer getCobonId() {
         return cobonId;
     }
 
-    public void setCobonId(int cobonId) {
+    public void setCobonId(Integer cobonId) {
         this.cobonId = cobonId;
     }
 
     @Column(name = "cobontype_id", nullable = false)
     @Id
-    public int getCobontypeId() {
+    public Integer getCobontypeId() {
         return cobontypeId;
     }
 
-    public void setCobontypeId(int cobontypeId) {
+    public void setCobontypeId(Integer cobontypeId) {
         this.cobontypeId = cobontypeId;
     }
 
@@ -35,16 +35,16 @@ public class CobonEntityPK implements Serializable {
 
         CobonEntityPK that = (CobonEntityPK) o;
 
-        if (cobonId != that.cobonId) return false;
-        if (cobontypeId != that.cobontypeId) return false;
+        if (cobonId != null ? !cobonId.equals(that.cobonId) : that.cobonId != null) return false;
+        if (cobontypeId != null ? !cobontypeId.equals(that.cobontypeId) : that.cobontypeId != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = cobonId;
-        result = 31 * result + cobontypeId;
+        int result = cobonId != null ? cobonId.hashCode() : 0;
+        result = 31 * result + (cobontypeId != null ? cobontypeId.hashCode() : 0);
         return result;
     }
 }

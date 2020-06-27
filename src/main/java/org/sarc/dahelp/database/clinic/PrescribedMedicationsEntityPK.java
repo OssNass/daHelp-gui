@@ -5,26 +5,26 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 public class PrescribedMedicationsEntityPK implements Serializable {
-    private int prescritionId;
-    private int medicineId;
+    private Integer prescritionId;
+    private Integer medicineId;
 
     @Column(name = "prescrition_id", nullable = false)
     @Id
-    public int getPrescritionId() {
+    public Integer getPrescritionId() {
         return prescritionId;
     }
 
-    public void setPrescritionId(int prescritionId) {
+    public void setPrescritionId(Integer prescritionId) {
         this.prescritionId = prescritionId;
     }
 
     @Column(name = "medicine_id", nullable = false)
     @Id
-    public int getMedicineId() {
+    public Integer getMedicineId() {
         return medicineId;
     }
 
-    public void setMedicineId(int medicineId) {
+    public void setMedicineId(Integer medicineId) {
         this.medicineId = medicineId;
     }
 
@@ -35,16 +35,17 @@ public class PrescribedMedicationsEntityPK implements Serializable {
 
         PrescribedMedicationsEntityPK that = (PrescribedMedicationsEntityPK) o;
 
-        if (prescritionId != that.prescritionId) return false;
-        if (medicineId != that.medicineId) return false;
+        if (prescritionId != null ? !prescritionId.equals(that.prescritionId) : that.prescritionId != null)
+            return false;
+        if (medicineId != null ? !medicineId.equals(that.medicineId) : that.medicineId != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = prescritionId;
-        result = 31 * result + medicineId;
+        int result = prescritionId != null ? prescritionId.hashCode() : 0;
+        result = 31 * result + (medicineId != null ? medicineId.hashCode() : 0);
         return result;
     }
 }

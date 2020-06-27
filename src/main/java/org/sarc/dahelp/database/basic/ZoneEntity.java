@@ -6,30 +6,31 @@ import javax.persistence.*;
 @Table(name = "zone", schema = "basic", catalog = "dahelp")
 @IdClass(ZoneEntityPK.class)
 public class ZoneEntity {
-    private int personId;
-    private int cardNumber;
+    private Integer personId;
+    private Integer cardNumber;
     private String zoneName;
     private String village;
-    private int organizationId;
-    private int subbranchId;
+    private Integer organizationId;
+    private Integer subbranchId;
+    private PersonEntity person;
 
     @Id
     @Column(name = "person_id", nullable = false)
-    public int getPersonId() {
+    public Integer getPersonId() {
         return personId;
     }
 
-    public void setPersonId(int personId) {
+    public void setPersonId(Integer personId) {
         this.personId = personId;
     }
 
     @Id
     @Column(name = "card_number", nullable = false)
-    public int getCardNumber() {
+    public Integer getCardNumber() {
         return cardNumber;
     }
 
-    public void setCardNumber(int cardNumber) {
+    public void setCardNumber(Integer cardNumber) {
         this.cardNumber = cardNumber;
     }
 
@@ -55,21 +56,21 @@ public class ZoneEntity {
 
     @Id
     @Column(name = "organization_id", nullable = false)
-    public int getOrganizationId() {
+    public Integer getOrganizationId() {
         return organizationId;
     }
 
-    public void setOrganizationId(int organizationId) {
+    public void setOrganizationId(Integer organizationId) {
         this.organizationId = organizationId;
     }
 
     @Id
     @Column(name = "subbranch_id", nullable = false)
-    public int getSubbranchId() {
+    public Integer getSubbranchId() {
         return subbranchId;
     }
 
-    public void setSubbranchId(int subbranchId) {
+    public void setSubbranchId(Integer subbranchId) {
         this.subbranchId = subbranchId;
     }
 
@@ -80,24 +81,37 @@ public class ZoneEntity {
 
         ZoneEntity that = (ZoneEntity) o;
 
-        if (personId != that.personId) return false;
-        if (cardNumber != that.cardNumber) return false;
-        if (organizationId != that.organizationId) return false;
-        if (subbranchId != that.subbranchId) return false;
+        if (personId != null ? !personId.equals(that.personId) : that.personId != null) return false;
+        if (cardNumber != null ? !cardNumber.equals(that.cardNumber) : that.cardNumber != null) return false;
         if (zoneName != null ? !zoneName.equals(that.zoneName) : that.zoneName != null) return false;
         if (village != null ? !village.equals(that.village) : that.village != null) return false;
+        if (organizationId != null ? !organizationId.equals(that.organizationId) : that.organizationId != null)
+            return false;
+        if (subbranchId != null ? !subbranchId.equals(that.subbranchId) : that.subbranchId != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = personId;
-        result = 31 * result + cardNumber;
+        int result = personId != null ? personId.hashCode() : 0;
+        result = 31 * result + (cardNumber != null ? cardNumber.hashCode() : 0);
         result = 31 * result + (zoneName != null ? zoneName.hashCode() : 0);
         result = 31 * result + (village != null ? village.hashCode() : 0);
-        result = 31 * result + organizationId;
-        result = 31 * result + subbranchId;
+        result = 31 * result + (organizationId != null ? organizationId.hashCode() : 0);
+        result = 31 * result + (subbranchId != null ? subbranchId.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumns({@JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false, insertable = false, updatable = false),
+            @JoinColumn(name = "organization_id", referencedColumnName = "organization_id", nullable = false, insertable = false, updatable = false)
+            , @JoinColumn(name = "subbranch_id", referencedColumnName = "subbranch_id", nullable = false, insertable = false, updatable = false)})
+    public PersonEntity getPerson() {
+        return person;
+    }
+
+    public void setPerson(PersonEntity person) {
+        this.person = person;
     }
 }

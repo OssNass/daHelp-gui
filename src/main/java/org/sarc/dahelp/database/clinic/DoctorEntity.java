@@ -6,18 +6,20 @@ import javax.persistence.*;
 @Table(name = "doctor", schema = "clinic", catalog = "dahelp")
 @IdClass(DoctorEntityPK.class)
 public class DoctorEntity {
-    private int doctorId;
+    private Integer doctorId;
     private String firstName;
     private String lastName;
-    private int clinicId;
+    private Integer clinicId;
+    private ClinicsEntity clinicsByClinicId;
+    private ExaminationEntity examinationByDoctorId;
 
     @Id
     @Column(name = "doctor_id", nullable = false)
-    public int getDoctorId() {
+    public Integer getDoctorId() {
         return doctorId;
     }
 
-    public void setDoctorId(int doctorId) {
+    public void setDoctorId(Integer doctorId) {
         this.doctorId = doctorId;
     }
 
@@ -43,11 +45,11 @@ public class DoctorEntity {
 
     @Id
     @Column(name = "clinic_id", nullable = false)
-    public int getClinicId() {
+    public Integer getClinicId() {
         return clinicId;
     }
 
-    public void setClinicId(int clinicId) {
+    public void setClinicId(Integer clinicId) {
         this.clinicId = clinicId;
     }
 
@@ -58,20 +60,40 @@ public class DoctorEntity {
 
         DoctorEntity that = (DoctorEntity) o;
 
-        if (doctorId != that.doctorId) return false;
-        if (clinicId != that.clinicId) return false;
+        if (doctorId != null ? !doctorId.equals(that.doctorId) : that.doctorId != null) return false;
         if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
         if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
+        if (clinicId != null ? !clinicId.equals(that.clinicId) : that.clinicId != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = doctorId;
+        int result = doctorId != null ? doctorId.hashCode() : 0;
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + clinicId;
+        result = 31 * result + (clinicId != null ? clinicId.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "clinic_id", referencedColumnName = "clinic_id", nullable = false, insertable = false, updatable = false)
+    public ClinicsEntity getClinicsByClinicId() {
+        return clinicsByClinicId;
+    }
+
+    public void setClinicsByClinicId(ClinicsEntity clinicsByClinicId) {
+        this.clinicsByClinicId = clinicsByClinicId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "doctor_id", referencedColumnName = "doctor_id", nullable = false, insertable = false, updatable = false)
+    public ExaminationEntity getExaminationByDoctorId() {
+        return examinationByDoctorId;
+    }
+
+    public void setExaminationByDoctorId(ExaminationEntity examinationByDoctorId) {
+        this.examinationByDoctorId = examinationByDoctorId;
     }
 }

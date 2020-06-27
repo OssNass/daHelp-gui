@@ -5,48 +5,48 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 public class MaterialInCobonEntityPK implements Serializable {
-    private int materialId;
-    private int internantionalOrganizationId;
-    private int cobonId;
-    private int cobonTypeId;
+    private Integer materialId;
+    private Integer internantionalOrganizationId;
+    private Integer cobonId;
+    private Integer cobonTypeId;
 
     @Column(name = "material_id", nullable = false)
     @Id
-    public int getMaterialId() {
+    public Integer getMaterialId() {
         return materialId;
     }
 
-    public void setMaterialId(int materialId) {
+    public void setMaterialId(Integer materialId) {
         this.materialId = materialId;
     }
 
     @Column(name = "internantional_organization_id", nullable = false)
     @Id
-    public int getInternantionalOrganizationId() {
+    public Integer getInternantionalOrganizationId() {
         return internantionalOrganizationId;
     }
 
-    public void setInternantionalOrganizationId(int internantionalOrganizationId) {
+    public void setInternantionalOrganizationId(Integer internantionalOrganizationId) {
         this.internantionalOrganizationId = internantionalOrganizationId;
     }
 
     @Column(name = "cobon_id", nullable = false)
     @Id
-    public int getCobonId() {
+    public Integer getCobonId() {
         return cobonId;
     }
 
-    public void setCobonId(int cobonId) {
+    public void setCobonId(Integer cobonId) {
         this.cobonId = cobonId;
     }
 
     @Column(name = "cobon_type_id", nullable = false)
     @Id
-    public int getCobonTypeId() {
+    public Integer getCobonTypeId() {
         return cobonTypeId;
     }
 
-    public void setCobonTypeId(int cobonTypeId) {
+    public void setCobonTypeId(Integer cobonTypeId) {
         this.cobonTypeId = cobonTypeId;
     }
 
@@ -57,20 +57,21 @@ public class MaterialInCobonEntityPK implements Serializable {
 
         MaterialInCobonEntityPK that = (MaterialInCobonEntityPK) o;
 
-        if (materialId != that.materialId) return false;
-        if (internantionalOrganizationId != that.internantionalOrganizationId) return false;
-        if (cobonId != that.cobonId) return false;
-        if (cobonTypeId != that.cobonTypeId) return false;
+        if (materialId != null ? !materialId.equals(that.materialId) : that.materialId != null) return false;
+        if (internantionalOrganizationId != null ? !internantionalOrganizationId.equals(that.internantionalOrganizationId) : that.internantionalOrganizationId != null)
+            return false;
+        if (cobonId != null ? !cobonId.equals(that.cobonId) : that.cobonId != null) return false;
+        if (cobonTypeId != null ? !cobonTypeId.equals(that.cobonTypeId) : that.cobonTypeId != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = materialId;
-        result = 31 * result + internantionalOrganizationId;
-        result = 31 * result + cobonId;
-        result = 31 * result + cobonTypeId;
+        int result = materialId != null ? materialId.hashCode() : 0;
+        result = 31 * result + (internantionalOrganizationId != null ? internantionalOrganizationId.hashCode() : 0);
+        result = 31 * result + (cobonId != null ? cobonId.hashCode() : 0);
+        result = 31 * result + (cobonTypeId != null ? cobonTypeId.hashCode() : 0);
         return result;
     }
 }

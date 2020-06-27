@@ -2,35 +2,39 @@ package org.sarc.dahelp.database.clinic;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Collection;
 
 @Entity
 @Table(name = "pharmacy_stock", schema = "clinic", catalog = "dahelp")
 @IdClass(PharmacyStockEntityPK.class)
 public class PharmacyStockEntity {
-    private int shipmentId;
-    private int medicineId;
+    private Integer shipmentId;
+    private Integer medicineId;
     private Date productionDate;
     private Date expirationDate;
-    private int quantity;
-    private int currentQuantity;
+    private Integer quantity;
+    private Integer currentQuantity;
+    private Collection<MedicineOutEntity> medicineOuts;
+    private ShipmentEntity shipmentByShipmentId;
+    private MedicineEntity medicineByMedicineId;
 
     @Id
     @Column(name = "shipment_id", nullable = false)
-    public int getShipmentId() {
+    public Integer getShipmentId() {
         return shipmentId;
     }
 
-    public void setShipmentId(int shipmentId) {
+    public void setShipmentId(Integer shipmentId) {
         this.shipmentId = shipmentId;
     }
 
     @Id
     @Column(name = "medicine_id", nullable = false)
-    public int getMedicineId() {
+    public Integer getMedicineId() {
         return medicineId;
     }
 
-    public void setMedicineId(int medicineId) {
+    public void setMedicineId(Integer medicineId) {
         this.medicineId = medicineId;
     }
 
@@ -56,21 +60,21 @@ public class PharmacyStockEntity {
 
     @Basic
     @Column(name = "quantity", nullable = false)
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
     @Basic
     @Column(name = "current_quantity", nullable = false)
-    public int getCurrentQuantity() {
+    public Integer getCurrentQuantity() {
         return currentQuantity;
     }
 
-    public void setCurrentQuantity(int currentQuantity) {
+    public void setCurrentQuantity(Integer currentQuantity) {
         this.currentQuantity = currentQuantity;
     }
 
@@ -81,13 +85,14 @@ public class PharmacyStockEntity {
 
         PharmacyStockEntity that = (PharmacyStockEntity) o;
 
-        if (shipmentId != that.shipmentId) return false;
-        if (medicineId != that.medicineId) return false;
-        if (quantity != that.quantity) return false;
-        if (currentQuantity != that.currentQuantity) return false;
+        if (shipmentId != null ? !shipmentId.equals(that.shipmentId) : that.shipmentId != null) return false;
+        if (medicineId != null ? !medicineId.equals(that.medicineId) : that.medicineId != null) return false;
         if (productionDate != null ? !productionDate.equals(that.productionDate) : that.productionDate != null)
             return false;
         if (expirationDate != null ? !expirationDate.equals(that.expirationDate) : that.expirationDate != null)
+            return false;
+        if (quantity != null ? !quantity.equals(that.quantity) : that.quantity != null) return false;
+        if (currentQuantity != null ? !currentQuantity.equals(that.currentQuantity) : that.currentQuantity != null)
             return false;
 
         return true;
@@ -95,12 +100,41 @@ public class PharmacyStockEntity {
 
     @Override
     public int hashCode() {
-        int result = shipmentId;
-        result = 31 * result + medicineId;
+        int result = shipmentId != null ? shipmentId.hashCode() : 0;
+        result = 31 * result + (medicineId != null ? medicineId.hashCode() : 0);
         result = 31 * result + (productionDate != null ? productionDate.hashCode() : 0);
         result = 31 * result + (expirationDate != null ? expirationDate.hashCode() : 0);
-        result = 31 * result + quantity;
-        result = 31 * result + currentQuantity;
+        result = 31 * result + (quantity != null ? quantity.hashCode() : 0);
+        result = 31 * result + (currentQuantity != null ? currentQuantity.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "pharmacyStock")
+    public Collection<MedicineOutEntity> getMedicineOuts() {
+        return medicineOuts;
+    }
+
+    public void setMedicineOuts(Collection<MedicineOutEntity> medicineOuts) {
+        this.medicineOuts = medicineOuts;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "shipment_id", referencedColumnName = "shipment_id", nullable = false, insertable = false, updatable = false)
+    public ShipmentEntity getShipmentByShipmentId() {
+        return shipmentByShipmentId;
+    }
+
+    public void setShipmentByShipmentId(ShipmentEntity shipmentByShipmentId) {
+        this.shipmentByShipmentId = shipmentByShipmentId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "medicine_id", referencedColumnName = "medicine_id", nullable = false, insertable = false, updatable = false)
+    public MedicineEntity getMedicineByMedicineId() {
+        return medicineByMedicineId;
+    }
+
+    public void setMedicineByMedicineId(MedicineEntity medicineByMedicineId) {
+        this.medicineByMedicineId = medicineByMedicineId;
     }
 }

@@ -1,18 +1,15 @@
 package org.sarc.dahelp.database.administration;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import java.io.Serializable;
 
-@Entity
-@Table(name = "user_roles", schema = "administration", catalog = "dahelp")
-@IdClass(UserRolesEntityPK.class)
-public class UserRolesEntity {
+public class UserRolesEntityPK implements Serializable {
     private Integer userId;
     private Integer roleId;
-    private UsersEntity usersByUserId;
-    private RolesEntity rolesByRoleId;
 
-    @Id
     @Column(name = "user_id", nullable = false)
+    @Id
     public Integer getUserId() {
         return userId;
     }
@@ -21,8 +18,8 @@ public class UserRolesEntity {
         this.userId = userId;
     }
 
-    @Id
     @Column(name = "role_id", nullable = false)
+    @Id
     public Integer getRoleId() {
         return roleId;
     }
@@ -36,7 +33,7 @@ public class UserRolesEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UserRolesEntity that = (UserRolesEntity) o;
+        UserRolesEntityPK that = (UserRolesEntityPK) o;
 
         if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
         if (roleId != null ? !roleId.equals(that.roleId) : that.roleId != null) return false;
@@ -49,25 +46,5 @@ public class UserRolesEntity {
         int result = userId != null ? userId.hashCode() : 0;
         result = 31 * result + (roleId != null ? roleId.hashCode() : 0);
         return result;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
-    public UsersEntity getUsersByUserId() {
-        return usersByUserId;
-    }
-
-    public void setUsersByUserId(UsersEntity usersByUserId) {
-        this.usersByUserId = usersByUserId;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
-    public RolesEntity getRolesByRoleId() {
-        return rolesByRoleId;
-    }
-
-    public void setRolesByRoleId(RolesEntity rolesByRoleId) {
-        this.rolesByRoleId = rolesByRoleId;
     }
 }

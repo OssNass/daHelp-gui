@@ -5,37 +5,37 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 public class DiagnosisEntityPK implements Serializable {
-    private int examinationId;
-    private int diseaseId;
-    private int visitId;
+    private Integer examinationId;
+    private Integer diseaseId;
+    private Integer visitId;
 
     @Column(name = "examination_id", nullable = false)
     @Id
-    public int getExaminationId() {
+    public Integer getExaminationId() {
         return examinationId;
     }
 
-    public void setExaminationId(int examinationId) {
+    public void setExaminationId(Integer examinationId) {
         this.examinationId = examinationId;
     }
 
     @Column(name = "disease_id", nullable = false)
     @Id
-    public int getDiseaseId() {
+    public Integer getDiseaseId() {
         return diseaseId;
     }
 
-    public void setDiseaseId(int diseaseId) {
+    public void setDiseaseId(Integer diseaseId) {
         this.diseaseId = diseaseId;
     }
 
     @Column(name = "visit_id", nullable = false)
     @Id
-    public int getVisitId() {
+    public Integer getVisitId() {
         return visitId;
     }
 
-    public void setVisitId(int visitId) {
+    public void setVisitId(Integer visitId) {
         this.visitId = visitId;
     }
 
@@ -46,18 +46,19 @@ public class DiagnosisEntityPK implements Serializable {
 
         DiagnosisEntityPK that = (DiagnosisEntityPK) o;
 
-        if (examinationId != that.examinationId) return false;
-        if (diseaseId != that.diseaseId) return false;
-        if (visitId != that.visitId) return false;
+        if (examinationId != null ? !examinationId.equals(that.examinationId) : that.examinationId != null)
+            return false;
+        if (diseaseId != null ? !diseaseId.equals(that.diseaseId) : that.diseaseId != null) return false;
+        if (visitId != null ? !visitId.equals(that.visitId) : that.visitId != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = examinationId;
-        result = 31 * result + diseaseId;
-        result = 31 * result + visitId;
+        int result = examinationId != null ? examinationId.hashCode() : 0;
+        result = 31 * result + (diseaseId != null ? diseaseId.hashCode() : 0);
+        result = 31 * result + (visitId != null ? visitId.hashCode() : 0);
         return result;
     }
 }

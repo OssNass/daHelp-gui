@@ -15,7 +15,7 @@
         <class>org.sarc.dahelp.database.basic.ChronicDesciptionEntity</class>
         <class>org.sarc.dahelp.database.basic.DisplacementEntity</class>
         <class>org.sarc.dahelp.database.basic.FamilyEntity</class>
-        <class>org.sarc.dahelp.database.clinic.HealthStatusEntity</class>
+        <class>org.sarc.dahelp.database.basic.HealthStatusEntity</class>
         <class>org.sarc.dahelp.database.basic.PersonEntity</class>
         <class>org.sarc.dahelp.database.basic.ZoneEntity</class>
         <class>org.sarc.dahelp.database.clinic.ClinicsEntity</class>
@@ -23,7 +23,6 @@
         <class>org.sarc.dahelp.database.clinic.DiseaseEntity</class>
         <class>org.sarc.dahelp.database.clinic.DoctorEntity</class>
         <class>org.sarc.dahelp.database.clinic.ExaminationEntity</class>
-        <class>org.sarc.dahelp.database.clinic.ExamintationEntity</class>
         <class>org.sarc.dahelp.database.clinic.MedicineEntity</class>
         <class>org.sarc.dahelp.database.clinic.MedicineOutEntity</class>
         <class>org.sarc.dahelp.database.clinic.PharmacyMovementOutEntity</class>
@@ -35,10 +34,9 @@
         <class>org.sarc.dahelp.database.relief.CobonEntity</class>
         <class>org.sarc.dahelp.database.relief.CobonTypeEntity</class>
         <class>org.sarc.dahelp.database.relief.ExtraFamilyInfoEntity</class>
-        <class>org.sarc.dahelp.database.relief.FoodEntity</class>
         <class>org.sarc.dahelp.database.relief.MaterialInCobonEntity</class>
         <class>org.sarc.dahelp.database.relief.MaterialsEntity</class>
-        <class>org.sarc.dahelp.database.relief.NonFoodEntity</class>
+
         <properties>
             <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/dahelp"/>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>

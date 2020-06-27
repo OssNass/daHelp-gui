@@ -1,24 +1,27 @@
 package org.sarc.dahelp.database.clinic;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "medicine", schema = "clinic", catalog = "dahelp")
 public class MedicineEntity {
-    private int medicineId;
+    private Integer medicineId;
     private String medicineName;
     private String medicineCalibre;
-    private int medicineForm;
+    private Integer medicineForm;
     private String activeMaterial;
     private String code;
+    private Collection<PharmacyStockEntity> pharmacyStocksByMedicineId;
+    private Collection<PrescribedMedicationsEntity> prescribedMedicationsByMedicineId;
 
     @Id
     @Column(name = "medicine_id", nullable = false)
-    public int getMedicineId() {
+    public Integer getMedicineId() {
         return medicineId;
     }
 
-    public void setMedicineId(int medicineId) {
+    public void setMedicineId(Integer medicineId) {
         this.medicineId = medicineId;
     }
 
@@ -44,11 +47,11 @@ public class MedicineEntity {
 
     @Basic
     @Column(name = "medicine_form", nullable = false)
-    public int getMedicineForm() {
+    public Integer getMedicineForm() {
         return medicineForm;
     }
 
-    public void setMedicineForm(int medicineForm) {
+    public void setMedicineForm(Integer medicineForm) {
         this.medicineForm = medicineForm;
     }
 
@@ -79,11 +82,11 @@ public class MedicineEntity {
 
         MedicineEntity that = (MedicineEntity) o;
 
-        if (medicineId != that.medicineId) return false;
-        if (medicineForm != that.medicineForm) return false;
+        if (medicineId != null ? !medicineId.equals(that.medicineId) : that.medicineId != null) return false;
         if (medicineName != null ? !medicineName.equals(that.medicineName) : that.medicineName != null) return false;
         if (medicineCalibre != null ? !medicineCalibre.equals(that.medicineCalibre) : that.medicineCalibre != null)
             return false;
+        if (medicineForm != null ? !medicineForm.equals(that.medicineForm) : that.medicineForm != null) return false;
         if (activeMaterial != null ? !activeMaterial.equals(that.activeMaterial) : that.activeMaterial != null)
             return false;
         if (code != null ? !code.equals(that.code) : that.code != null) return false;
@@ -93,12 +96,30 @@ public class MedicineEntity {
 
     @Override
     public int hashCode() {
-        int result = medicineId;
+        int result = medicineId != null ? medicineId.hashCode() : 0;
         result = 31 * result + (medicineName != null ? medicineName.hashCode() : 0);
         result = 31 * result + (medicineCalibre != null ? medicineCalibre.hashCode() : 0);
-        result = 31 * result + medicineForm;
+        result = 31 * result + (medicineForm != null ? medicineForm.hashCode() : 0);
         result = 31 * result + (activeMaterial != null ? activeMaterial.hashCode() : 0);
         result = 31 * result + (code != null ? code.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "medicineByMedicineId")
+    public Collection<PharmacyStockEntity> getPharmacyStocksByMedicineId() {
+        return pharmacyStocksByMedicineId;
+    }
+
+    public void setPharmacyStocksByMedicineId(Collection<PharmacyStockEntity> pharmacyStocksByMedicineId) {
+        this.pharmacyStocksByMedicineId = pharmacyStocksByMedicineId;
+    }
+
+    @OneToMany(mappedBy = "medicineByMedicineId")
+    public Collection<PrescribedMedicationsEntity> getPrescribedMedicationsByMedicineId() {
+        return prescribedMedicationsByMedicineId;
+    }
+
+    public void setPrescribedMedicationsByMedicineId(Collection<PrescribedMedicationsEntity> prescribedMedicationsByMedicineId) {
+        this.prescribedMedicationsByMedicineId = prescribedMedicationsByMedicineId;
     }
 }

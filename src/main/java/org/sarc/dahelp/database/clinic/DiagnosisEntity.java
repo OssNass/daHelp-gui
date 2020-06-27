@@ -6,28 +6,29 @@ import javax.persistence.*;
 @Table(name = "diagnosis", schema = "clinic", catalog = "dahelp")
 @IdClass(DiagnosisEntityPK.class)
 public class DiagnosisEntity {
-    private int examinationId;
-    private int diseaseId;
+    private Integer examinationId;
+    private Integer diseaseId;
     private String notes;
-    private int visitId;
+    private Integer visitId;
+    private DiseaseEntity diseaseByDiseaseId;
 
     @Id
     @Column(name = "examination_id", nullable = false)
-    public int getExaminationId() {
+    public Integer getExaminationId() {
         return examinationId;
     }
 
-    public void setExaminationId(int examinationId) {
+    public void setExaminationId(Integer examinationId) {
         this.examinationId = examinationId;
     }
 
     @Id
     @Column(name = "disease_id", nullable = false)
-    public int getDiseaseId() {
+    public Integer getDiseaseId() {
         return diseaseId;
     }
 
-    public void setDiseaseId(int diseaseId) {
+    public void setDiseaseId(Integer diseaseId) {
         this.diseaseId = diseaseId;
     }
 
@@ -43,11 +44,11 @@ public class DiagnosisEntity {
 
     @Id
     @Column(name = "visit_id", nullable = false)
-    public int getVisitId() {
+    public Integer getVisitId() {
         return visitId;
     }
 
-    public void setVisitId(int visitId) {
+    public void setVisitId(Integer visitId) {
         this.visitId = visitId;
     }
 
@@ -58,20 +59,31 @@ public class DiagnosisEntity {
 
         DiagnosisEntity that = (DiagnosisEntity) o;
 
-        if (examinationId != that.examinationId) return false;
-        if (diseaseId != that.diseaseId) return false;
-        if (visitId != that.visitId) return false;
+        if (examinationId != null ? !examinationId.equals(that.examinationId) : that.examinationId != null)
+            return false;
+        if (diseaseId != null ? !diseaseId.equals(that.diseaseId) : that.diseaseId != null) return false;
         if (notes != null ? !notes.equals(that.notes) : that.notes != null) return false;
+        if (visitId != null ? !visitId.equals(that.visitId) : that.visitId != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = examinationId;
-        result = 31 * result + diseaseId;
+        int result = examinationId != null ? examinationId.hashCode() : 0;
+        result = 31 * result + (diseaseId != null ? diseaseId.hashCode() : 0);
         result = 31 * result + (notes != null ? notes.hashCode() : 0);
-        result = 31 * result + visitId;
+        result = 31 * result + (visitId != null ? visitId.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "disease_id", referencedColumnName = "disease_id", nullable = false, insertable = false, updatable = false)
+    public DiseaseEntity getDiseaseByDiseaseId() {
+        return diseaseByDiseaseId;
+    }
+
+    public void setDiseaseByDiseaseId(DiseaseEntity diseaseByDiseaseId) {
+        this.diseaseByDiseaseId = diseaseByDiseaseId;
     }
 }

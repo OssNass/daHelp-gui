@@ -1,27 +1,32 @@
 package org.sarc.dahelp.database.relief;
 
+import org.sarc.dahelp.database.basic.FamilyEntity;
+
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Collection;
 
 @Entity
 @Table(name = "extra_family_info", schema = "relief", catalog = "dahelp")
 public class ExtraFamilyInfoEntity {
-    private int familyId;
+    private Integer familyId;
     private Double totalFamilyIncome;
     private Integer residenceType;
     private Integer residenceStatus;
-    private boolean iscanceled;
+    private Boolean iscanceled;
     private Date dateofcacenlation;
     private Date dateofregister;
     private String reasonForCancelation;
+    private FamilyEntity familyByFamilyId;
+    private Collection<CobonEntity> cobonsByFamilyId;
 
     @Id
     @Column(name = "family_id", nullable = false)
-    public int getFamilyId() {
+    public Integer getFamilyId() {
         return familyId;
     }
 
-    public void setFamilyId(int familyId) {
+    public void setFamilyId(Integer familyId) {
         this.familyId = familyId;
     }
 
@@ -57,11 +62,11 @@ public class ExtraFamilyInfoEntity {
 
     @Basic
     @Column(name = "iscanceled", nullable = false)
-    public boolean isIscanceled() {
+    public Boolean getIscanceled() {
         return iscanceled;
     }
 
-    public void setIscanceled(boolean iscanceled) {
+    public void setIscanceled(Boolean iscanceled) {
         this.iscanceled = iscanceled;
     }
 
@@ -102,14 +107,14 @@ public class ExtraFamilyInfoEntity {
 
         ExtraFamilyInfoEntity that = (ExtraFamilyInfoEntity) o;
 
-        if (familyId != that.familyId) return false;
-        if (iscanceled != that.iscanceled) return false;
+        if (familyId != null ? !familyId.equals(that.familyId) : that.familyId != null) return false;
         if (totalFamilyIncome != null ? !totalFamilyIncome.equals(that.totalFamilyIncome) : that.totalFamilyIncome != null)
             return false;
         if (residenceType != null ? !residenceType.equals(that.residenceType) : that.residenceType != null)
             return false;
         if (residenceStatus != null ? !residenceStatus.equals(that.residenceStatus) : that.residenceStatus != null)
             return false;
+        if (iscanceled != null ? !iscanceled.equals(that.iscanceled) : that.iscanceled != null) return false;
         if (dateofcacenlation != null ? !dateofcacenlation.equals(that.dateofcacenlation) : that.dateofcacenlation != null)
             return false;
         if (dateofregister != null ? !dateofregister.equals(that.dateofregister) : that.dateofregister != null)
@@ -122,14 +127,32 @@ public class ExtraFamilyInfoEntity {
 
     @Override
     public int hashCode() {
-        int result = familyId;
+        int result = familyId != null ? familyId.hashCode() : 0;
         result = 31 * result + (totalFamilyIncome != null ? totalFamilyIncome.hashCode() : 0);
         result = 31 * result + (residenceType != null ? residenceType.hashCode() : 0);
         result = 31 * result + (residenceStatus != null ? residenceStatus.hashCode() : 0);
-        result = 31 * result + (iscanceled ? 1 : 0);
+        result = 31 * result + (iscanceled != null ? iscanceled.hashCode() : 0);
         result = 31 * result + (dateofcacenlation != null ? dateofcacenlation.hashCode() : 0);
         result = 31 * result + (dateofregister != null ? dateofregister.hashCode() : 0);
         result = 31 * result + (reasonForCancelation != null ? reasonForCancelation.hashCode() : 0);
         return result;
+    }
+
+    @OneToOne(mappedBy = "extraFamilyInfoByFamilyId")
+    public FamilyEntity getFamilyByFamilyId() {
+        return familyByFamilyId;
+    }
+
+    public void setFamilyByFamilyId(FamilyEntity familyByFamilyId) {
+        this.familyByFamilyId = familyByFamilyId;
+    }
+
+    @OneToMany(mappedBy = "extraFamilyInfoByFamilyId")
+    public Collection<CobonEntity> getCobonsByFamilyId() {
+        return cobonsByFamilyId;
+    }
+
+    public void setCobonsByFamilyId(Collection<CobonEntity> cobonsByFamilyId) {
+        this.cobonsByFamilyId = cobonsByFamilyId;
     }
 }

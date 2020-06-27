@@ -5,37 +5,37 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 public class PersonEntityPK implements Serializable {
-    private int personId;
-    private int organizationId;
-    private int subbranchId;
+    private Integer personId;
+    private Integer organizationId;
+    private Integer subbranchId;
 
     @Column(name = "person_id", nullable = false)
     @Id
-    public int getPersonId() {
+    public Integer getPersonId() {
         return personId;
     }
 
-    public void setPersonId(int personId) {
+    public void setPersonId(Integer personId) {
         this.personId = personId;
     }
 
     @Column(name = "organization_id", nullable = false)
     @Id
-    public int getOrganizationId() {
+    public Integer getOrganizationId() {
         return organizationId;
     }
 
-    public void setOrganizationId(int organizationId) {
+    public void setOrganizationId(Integer organizationId) {
         this.organizationId = organizationId;
     }
 
     @Column(name = "subbranch_id", nullable = false)
     @Id
-    public int getSubbranchId() {
+    public Integer getSubbranchId() {
         return subbranchId;
     }
 
-    public void setSubbranchId(int subbranchId) {
+    public void setSubbranchId(Integer subbranchId) {
         this.subbranchId = subbranchId;
     }
 
@@ -46,18 +46,19 @@ public class PersonEntityPK implements Serializable {
 
         PersonEntityPK that = (PersonEntityPK) o;
 
-        if (personId != that.personId) return false;
-        if (organizationId != that.organizationId) return false;
-        if (subbranchId != that.subbranchId) return false;
+        if (personId != null ? !personId.equals(that.personId) : that.personId != null) return false;
+        if (organizationId != null ? !organizationId.equals(that.organizationId) : that.organizationId != null)
+            return false;
+        if (subbranchId != null ? !subbranchId.equals(that.subbranchId) : that.subbranchId != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = personId;
-        result = 31 * result + organizationId;
-        result = 31 * result + subbranchId;
+        int result = personId != null ? personId.hashCode() : 0;
+        result = 31 * result + (organizationId != null ? organizationId.hashCode() : 0);
+        result = 31 * result + (subbranchId != null ? subbranchId.hashCode() : 0);
         return result;
     }
 }

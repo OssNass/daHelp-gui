@@ -1,23 +1,26 @@
 package org.sarc.dahelp.database.administration;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "users", schema = "administration", catalog = "dahelp")
 public class UsersEntity {
-    private int id;
+    private Integer id;
     private String username;
     private Integer organizationId;
     private Integer subbranchId;
     private String secret;
+    private Collection<UserRolesEntity> userRolesById;
+    private SubbranchEntity subbranch;
 
     @Id
     @Column(name = "id", nullable = false)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -68,7 +71,7 @@ public class UsersEntity {
 
         UsersEntity that = (UsersEntity) o;
 
-        if (id != that.id) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (username != null ? !username.equals(that.username) : that.username != null) return false;
         if (organizationId != null ? !organizationId.equals(that.organizationId) : that.organizationId != null)
             return false;
@@ -80,11 +83,31 @@ public class UsersEntity {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (username != null ? username.hashCode() : 0);
         result = 31 * result + (organizationId != null ? organizationId.hashCode() : 0);
         result = 31 * result + (subbranchId != null ? subbranchId.hashCode() : 0);
         result = 31 * result + (secret != null ? secret.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "usersByUserId")
+    public Collection<UserRolesEntity> getUserRolesById() {
+        return userRolesById;
+    }
+
+    public void setUserRolesById(Collection<UserRolesEntity> userRolesById) {
+        this.userRolesById = userRolesById;
+    }
+
+    @ManyToOne
+    @JoinColumns({@JoinColumn(name = "organization_id", referencedColumnName = "organization_id", insertable = false, updatable = false),
+            @JoinColumn(name = "subbranch_id", referencedColumnName = "id", insertable = false, updatable = false)})
+    public SubbranchEntity getSubbranch() {
+        return subbranch;
+    }
+
+    public void setSubbranch(SubbranchEntity subbranch) {
+        this.subbranch = subbranch;
     }
 }
